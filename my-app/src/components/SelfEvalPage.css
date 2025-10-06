@@ -1,0 +1,27 @@
+.self-eval-container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+}
+
+.input-section {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.input-section input {
+  flex: 1;
+  padding: 8px;
+}
+
+.input-section button {
+  padding: 8px 16px;
+}
+
+.question-card {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+}

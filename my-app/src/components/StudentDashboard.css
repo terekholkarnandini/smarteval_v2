@@ -1,0 +1,147 @@
+
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+  width:90vw;
+  background: linear-gradient(135deg, #1a0033, #0d0d2b);
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+
+.main-content {
+    color: white;
+    width:90vw;
+  flex: 1;
+  padding: 30px;
+  overflow-y: auto;
+   background: linear-gradient(135deg, #0f2027, #1b123f, #2c5364);
+}
+
+
+.quiz-card {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.quiz-card:hover {
+  transform: scale(1.02);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.quiz-card h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.quiz-card p {
+  font-size: 14px;
+  color: #d1d1d1;
+  margin-top: 4px;
+}
+
+
+.attempt-btn {
+  margin-top: 10px;
+  display: inline-block;
+  padding: 8px 14px;
+  background: #f72585;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.attempt-btn:hover {
+  background: #ff477e;
+  box-shadow: 0 0 8px rgba(247, 37, 133, 0.6);
+}
+
+.quiz-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+.timer {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffb703;
+}
+
+.progress-bar {
+  height: 8px;
+  background: #222;
+  border-radius: 6px;
+  margin-top: 6px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4cc9f0, #4361ee);
+  transition: width 1s linear;
+}
+
+
+.question-card {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 15px;
+}
+
+.question-card p {
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 5px 0;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.option input {
+  accent-color: #7209b7;
+}
+
+.option:hover {
+  color: #4cc9f0;
+}
+
+
+.submit-btn {
+  padding: 10px 18px;
+  background: #4cc9f0;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+  background: #4895ef;
+  box-shadow: 0 0 10px rgba(76, 201, 240, 0.6);
+}
+
+.result-box {
+  background: rgba(0, 255, 127, 0.15);
+  border: 1px solid #00ff95;
+  color: #b9fbc0;
+  padding: 14px 18px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+

@@ -1,0 +1,134 @@
+.faculty-dashboard {
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+
+}
+
+
+.faculty-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 20px;
+  background: linear-gradient(135deg, #2d043b, #5d217f, #9017cd);
+  display: flex;
+  color: #ecf0f1;
+  overflow-x: hidden;
+  transition: width 0.3s ease;
+  padding-top: 20px;
+  box-sizing: border-box;
+  z-index: 1000;
+}
+
+.faculty-sidebar:hover {
+  width: 280px;
+}
+
+.faculty-sidebar-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.faculty-sidebar-nav li {
+  padding: 15px 35px;
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+  font-size: 18px;
+  font-weight: bold;
+  color: rgb(240, 240, 240);
+}
+
+.faculty-sidebar-nav li span {
+  position: relative;
+}
+
+.faculty-sidebar-nav li span::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  height: 2px;
+  width: 0;
+  background-color: #ecf0f1;
+  transition: width 0.3s ease;
+}
+
+.faculty-sidebar-nav li:hover span::after {
+  width: 100%;
+}
+
+
+.faculty-main-content {
+  
+  padding: 20px;
+  background: linear-gradient(135deg, #0f2027, #1b123f, #2c5364);
+  flex-grow: 1;
+  transition: margin-left 0.3s ease;
+  min-height: 100vh;
+  width:90vw;
+}
+
+.faculty-sidebar:hover ~ .faculty-main-content {
+  margin-left: 220px;
+}
+
+.faculty-heading {
+  color: #ffffff;
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.faculty-welcome {
+  color: #ffffff;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.create-quiz-card {
+  background: linear-gradient(135deg, #5d217f, #9017cd);
+  color: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  width: 350px;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.create-quiz-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+.create-quiz-card h3 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.create-quiz-card p {
+  font-size: 14px;
+  margin: 10px 0 20px 0;
+  opacity: 0.9;
+}
+
+.create-btn {
+  padding: 12px 18px;
+  background-color: white;
+  color: #5d217f;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.create-btn:hover {
+  background-color: #2d043b;
+  color: white;
+}

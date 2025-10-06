@@ -1,0 +1,8 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: auto;         /* let height expand */
+  min-height: 100vh;    /* full screen height */
+  overflow-x: hidden;   /* no horizontal scroll */
+  overflow-y: auto;     /* vertical scroll allowed */
+}
