@@ -39,7 +39,7 @@ export default function LoginPage() {
 
 
 
-  const handleLogin = async (e) => {
+ const handleLogin = async (e) => {
   e.preventDefault();
 
   const email = e.target[0].value;
@@ -53,17 +53,37 @@ export default function LoginPage() {
     });
 
     const data = await response.json();
-    if (response.ok) {
-      console.log(" Login success:", data);
-      localStorage.setItem("token", data.token);
 
-      if (role === "student") navigate("/student");
-      else navigate("/faculty");
-    } else {
-      alert(data.error);
+  if (response.ok) {
+  console.log("Login success:", data);
+
+  localStorage.setItem("user", JSON.stringify(data.user));
+  localStorage.setItem("token", data.token);
+
+  // ✅ Add this line
+  localStorage.setItem("name", data.user.name);  // 🔥 this fixes studentName=null
+
+  // ✅ Store student ID if exists
+  if (data.user.role === "student" && data.user.studentId) {
+    localStorage.setItem("studentId", data.user.studentId);
+
+    // ✅ Friendly welcome message with student ID
+    alert(`✅ Welcome, ${data.user.name}!\nYour Student ID: ${data.user.studentId}`);
+  } else {
+    alert(`✅ Welcome, ${data.user.name}!`);
+  }
+
+  // Navigate after showing alert
+  if (role === "student") navigate("/student");
+  else navigate("/faculty");
+}
+
+else {
+      alert(data.error || "Invalid credentials");
     }
   } catch (err) {
-    console.error(" Error logging in:", err);
+    console.error("Error logging in:", err);
+    alert("⚠️ Unable to login. Please try again.");
   }
 };
 

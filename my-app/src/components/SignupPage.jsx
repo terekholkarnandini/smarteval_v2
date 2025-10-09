@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect } from "react";
-import "./LoginPage.css"; // reuse same CSS for styling
+import "./LoginPage.css"; 
 import FOG from "vanta/dist/vanta.fog.min";
 import * as THREE from "three";
 import { useNavigate } from "react-router-dom";
 
 export default function SignupPage() {
   const [role, setRole] = useState("student");
-  const [name, setName] = useState("");   // ✅ Added Name state
+  const [name, setName] = useState("");   
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const vantaRef = useRef(null);
@@ -48,12 +48,16 @@ export default function SignupPage() {
       const response = await fetch("http://localhost:5000/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password, role }), // ✅ include name
+        body: JSON.stringify({ name, email, password, role }), 
       });
 
       const data = await response.json();
       if (response.ok) {
-        alert("✅ Registered successfully! Please login.");
+        if (role === "student" && data.studentId) {
+          // Store studentId for later use
+          localStorage.setItem("studentId", data.studentId);
+        }
+        alert(" Registered successfully! Please login.");
         navigate("/login");
       } else {
         alert("❌ " + data.error || data.message);

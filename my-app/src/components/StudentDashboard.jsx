@@ -20,47 +20,56 @@ export default function StudentDashboard() {
 
   // Timer
   useEffect(() => {
-    if (!selectedQuiz || timeLeft === null) return;
-    if (timeLeft <= 0) {
-      alert("⏰ Time’s up! Quiz is auto-submitted.");
-      handleSubmit();
-      return;
-    }
-    const timer = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
+    if (!selectedQuiz) return;
+
+    const timer = setInterval(() => {
+      setTimeLeft(prev => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          alert("⏰ Time’s up! Quiz is auto-submitted.");
+          handleSubmit();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
     return () => clearInterval(timer);
-  }, [timeLeft, selectedQuiz]);
+  }, [selectedQuiz]);
 
   // Proctoring
   useEffect(() => {
     if (!selectedQuiz) return;
+
     const handleTabSwitch = () => {
       setTabSwitchCount(prev => {
         const newCount = prev + 1;
+
         if (newCount < 3) {
-          pendingWarningRef.current = `Warning: You switched tabs! (${newCount}/3). After the 3rd switch, the quiz will be terminated.`;
-        } else if (newCount === 3) {
-          pendingWarningRef.current = "You switched tabs 3 times. The quiz is terminated!";
+          pendingWarningRef.current = `⚠️ Warning: You switched tabs (${newCount}/3). After 3 switches, the quiz will terminate.`;
+        } else {
+          pendingWarningRef.current = "❌ You switched tabs 3 times. The quiz is terminated!";
+          // Terminate quiz
+          setSelectedQuiz(null);
+          setScore(null);
+          return 3; // Stop further increment
         }
+
         return newCount;
       });
     };
 
     const onVisibilityChange = () => {
       if (document.visibilityState === "hidden") handleTabSwitch();
-      else if (document.visibilityState === "visible" && pendingWarningRef.current) {
+      if (document.visibilityState === "visible" && pendingWarningRef.current) {
         alert(pendingWarningRef.current);
-        if (tabSwitchCount + 1 > 3) {
-          setSelectedQuiz(null);
-          setScore(null);
-          setTabSwitchCount(0);
-        }
         pendingWarningRef.current = null;
       }
     };
 
     document.addEventListener("visibilitychange", onVisibilityChange);
     return () => document.removeEventListener("visibilitychange", onVisibilityChange);
-  }, [selectedQuiz, tabSwitchCount]);
+  }, [selectedQuiz]);
 
   // Select quiz
   const handleSelectQuiz = (quiz) => {
@@ -75,7 +84,7 @@ export default function StudentDashboard() {
   const formatTime = (seconds) => {
     const m = Math.floor(seconds / 60);
     const s = seconds % 60;
-    return `${m}:${s < 10 ? "0" : ""}${s}`;
+    return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
   };
 
   // Answer
@@ -83,19 +92,64 @@ export default function StudentDashboard() {
     setAnswers(prev => ({ ...prev, [qIdx]: optIdx }));
   };
 
-  // Submit
-  const handleSubmit = () => {
-    if (!selectedQuiz) return;
-    if (tabSwitchCount >= 3) {
-      alert(" Quiz submission blocked due to excessive tab switching!");
-      return;
-    }
-    let correct = 0;
-    selectedQuiz.questions.forEach((q, i) => {
-      if (answers[i] === q.correctAnswer) correct++;
-    });
-    setScore(correct);
+ // Submit
+const handleSubmit = async () => {
+  if (!selectedQuiz) return;
+
+  // Calculate score
+  let correct = 0;
+  selectedQuiz.questions.forEach((q, i) => {
+    if (answers[i] === q.correctAnswer) correct++;
+  });
+  setScore(correct);
+
+  // Get logged-in user
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user) {
+    alert("❌ User not logged in. Please login again.");
+    return;
+  }
+
+  // Prepare result data
+  const totalQuestions = selectedQuiz.questions.length;
+  const percentage = ((correct / totalQuestions) * 100).toFixed(2);
+
+  const resultData = {
+    studentId: user?.studentId || user?.id,
+    studentName: user?.name,
+    quizId: selectedQuiz._id,
+    quizTitle: selectedQuiz.title,
+    score: correct,
+    totalQuestions,
+    percentage,
+    correctAnswers: correct,
+    tabSwitchCount,
+    suspiciousActivity: tabSwitchCount > 0
   };
+
+  console.log("📤 Sending result data:", resultData);
+
+  try {
+    const res = await fetch("http://localhost:5000/api/results", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(resultData)
+    });
+
+    if (res.ok) {
+      console.log("✅ Result saved successfully");
+      alert(`🎉 Quiz submitted! Your score: ${correct} / ${totalQuestions}`);
+    } else {
+      const errorData = await res.json();
+      console.error("❌ Failed to save result:", errorData);
+      alert("❌ Failed to save result. Try again.");
+    }
+  } catch (err) {
+    console.error("❌ Error saving result:", err);
+    alert("❌ Server error. Please try again later.");
+  }
+};
+
 
   const handleBack = () => {
     setSelectedQuiz(null);
@@ -120,7 +174,6 @@ export default function StudentDashboard() {
           </div>
         </div>
 
-        
         <div className="quiz-card">
           <h2>{selectedQuiz.title}</h2>
           <p>Topic: {selectedQuiz.topic} | {selectedQuiz.timeLimit} mins</p>
@@ -167,7 +220,7 @@ export default function StudentDashboard() {
   // Quiz List
   return (
     <div className="main-content">
-      <h1> Available Quizzes</h1>
+      <h1>Available Quizzes</h1>
       {quizzes.map(q => (
         <div key={q._id} className="quiz-card">
           <h2>{q.title}</h2>
