@@ -1,0 +1,101 @@
+/* Proctoring Table Styles */
+
+.results-section {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.results-section h2 {
+  margin-bottom: 20px;
+  color: #333; /* Header color can stay */
+  font-size: 1.8rem;
+  border-bottom: 2px solid #007bff;
+  display: inline-block;
+  padding-bottom: 4px;
+}
+
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow-x: auto;
+}
+
+.results-table th,
+.results-table td {
+  padding: 12px 15px;
+  text-align: left;
+  color: #000; /* Make text black */
+}
+
+.results-table thead {
+  background-color: #007bff;
+  color: #fff; /* Keep headers white for contrast */
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+.results-table tbody tr {
+  background-color: #fff;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.results-table tbody tr:nth-child(even) {
+  background-color: #f1f3f5;
+}
+
+.results-table tbody tr:hover {
+  background-color: #e2e6ea;
+}
+
+.alert-row {
+  background-color: #ffe5e5 !important;
+  animation: pulse 1.2s infinite;
+}
+
+@keyframes pulse {
+  0% { background-color: #ffe5e5; }
+  50% { background-color: #ffcccc; }
+  100% { background-color: #ffe5e5; }
+}
+
+.results-table td span {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: #000; /* Make badge text black too */
+}
+
+.results-table td span[style*="red"] {
+  background-color: #ffcccc;
+  color: #a70000; /* Keep alert red */
+}
+
+.results-table td span[style*="green"] {
+  background-color: #ccffcc;
+  color: #007700; /* Keep success green */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .results-section {
+    padding: 15px;
+  }
+
+  .results-table th,
+  .results-table td {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+    color: #000; /* Black text on mobile too */
+  }
+
+  .results-section h2 {
+    font-size: 1.5rem;
+  }
+}

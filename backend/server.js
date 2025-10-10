@@ -29,13 +29,13 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchema);
 
-// Helper function to generate unique 6–8 digit student ID
+// generation od s_id
 async function generateUniqueStudentId() {
   let unique = false;
   let studentId = "";
 
   while (!unique) {
-    // Random number between 100000 and 99999999 (6–8 digits)
+    // Random number between 100000 and 99999999 
     const randomNum = Math.floor(Math.random() * (99999999 - 100000 + 1)) + 100000;
     studentId = `STD${randomNum}`;
 

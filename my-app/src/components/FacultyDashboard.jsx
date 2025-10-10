@@ -79,39 +79,52 @@ const handleUploadClick = async () => {
 
   return (
     <div className="faculty-dashboard">
-      <div className="left-panel">
-        <h1 className="dashboard-title">Faculty Quiz Management</h1>
+     <div className="left-panel">
+  <h1 className="dashboard-title">Faculty Quiz Management</h1>
 
-        {/* Quiz Form */}
-        <form onSubmit={handleSubmit} className="quiz-form">
-          <input
-            className="input-field"
-            placeholder="Title"
-            value={form.title}
-            onChange={(e) => setForm({ ...form, title: e.target.value })}
-          />
-          <input
-            className="input-field"
-            placeholder="Description"
-            value={form.description}
-            onChange={(e) => setForm({ ...form, description: e.target.value })}
-          />
-          <input
-            className="input-field"
-            placeholder="Topic"
-            value={form.topic}
-            onChange={(e) => setForm({ ...form, topic: e.target.value })}
-          />
-          <input
-            className="input-field time-limit"
-            type="number"
-            placeholder="Time Limit"
-            value={form.timeLimit}
-            onChange={(e) => setForm({ ...form, timeLimit: e.target.value })}
-          />
-          <button className="btn add-quiz-btn">Add Quiz</button>
-        </form>
-      </div>
+  {/* Quiz Form */}
+  <form onSubmit={handleSubmit} className="quiz-form">
+    <input
+      className="input-field"
+      placeholder="Title"
+      value={form.title}
+      onChange={(e) => setForm({ ...form, title: e.target.value })}
+    />
+    <input
+      className="input-field"
+      placeholder="Description"
+      value={form.description}
+      onChange={(e) => setForm({ ...form, description: e.target.value })}
+    />
+    <input
+      className="input-field"
+      placeholder="Topic"
+      value={form.topic}
+      onChange={(e) => setForm({ ...form, topic: e.target.value })}
+    />
+    <input
+      className="input-field time-limit"
+      type="number"
+      placeholder="Time Limit"
+      value={form.timeLimit}
+      onChange={(e) => setForm({ ...form, timeLimit: e.target.value })}
+    />
+    <button className="btn add-quiz-btn">Add Quiz</button>
+  </form>
+
+  {/* ⬇️ Upload section moved OUTSIDE form to prevent conflict */}
+  <div className="upload-section">
+    <input type="file" accept=".txt,.pdf" onChange={handleFileChange} />
+    <button
+      type="button"
+      onClick={handleUploadClick}
+      className="btn upload-btn"
+    >
+      Upload Quiz
+    </button>
+  </div>
+</div>
+
 
       <div className="right-panel">
         {/* Quiz List */}
@@ -201,10 +214,8 @@ const handleUploadClick = async () => {
             </li>
           ))}
         </ul>
-        <input type="file" accept=".txt,.pdf" onChange={handleFileChange} />
-<button onClick={handleUploadClick} className="btn upload-btn">
-  Upload Quiz
-</button>
+        
+      
 
 
       </div>

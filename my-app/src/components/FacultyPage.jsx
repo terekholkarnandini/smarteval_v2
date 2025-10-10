@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./FacultyPage.css";
+import Proctoring from "./Proctoring";
 
 const subjects = [
   "Mathematics",
@@ -250,6 +251,39 @@ export default function FacultyPage({ faculty }) {
         )}
 
         {/* You can add similar blocks for "proctoring" and "analysis" if needed */}
+        {activeSection === "proctoring" && (
+  <div style={{ padding: 20 }}>
+    <h2>Proctoring Reports</h2>
+    <p>Select a quiz to view its student proctoring report:</p>
+
+    <select
+      onChange={(e) => setSelectedQuiz(e.target.value)}
+      value={selectedQuiz || ""}
+      style={{
+        margin: "10px 0",
+        padding: "8px",
+        borderRadius: "6px",
+        border: "1px solid #ccc",
+        width: "300px",
+      }}
+    >
+      <option value="">-- Select Quiz --</option>
+      {quizzes.map((quiz) => (
+        <option key={quiz._id} value={quiz._id}>
+          {quiz.title} ({quiz.topic})
+        </option>
+      ))}
+    </select>
+
+    {/* Show Proctoring results when a quiz is selected */}
+    {selectedQuiz && (
+      <div style={{ marginTop: "20px" }}>
+        <Proctoring quizId={selectedQuiz} />
+      </div>
+    )}
+  </div>
+)}
+
       </div>
     </div>
   );
