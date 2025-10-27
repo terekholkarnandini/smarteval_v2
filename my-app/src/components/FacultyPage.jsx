@@ -76,7 +76,7 @@ export default function FacultyPage({ faculty }) {
   // Modified to include uploadSubject in FormData, sent as "topic"
   const handleUploadClick = async () => {
     if (!file) return alert("Please select a file first!");
-    if (!uploadSubject) return alert("Please select a subject!");
+   
     const formData = new FormData();
     formData.append("quizFile", file);
     formData.append("topic", uploadSubject);
@@ -224,6 +224,16 @@ export default function FacultyPage({ faculty }) {
                 </li>
               ))}
             </ul>
+            <div className="upload-section">
+    <input type="file" accept=".txt,.pdf" onChange={handleFileChange} />
+    <button
+      type="button"
+      onClick={handleUploadClick}
+      className="btn upload-btn"
+    >
+      Upload Quiz
+    </button>
+  </div>
           </>
         )}
 
