@@ -6,6 +6,7 @@ import FacultyPage from "./components/FacultyPage";
 import SignupPage from "./components/SignupPage";
 import FacultyDashboard from "./components/FacultyDashboard";
 import SelfEvalPage from "./components/SelfEvalPage"
+import Proctoring from "./components/Proctoring";
 
 
 function App() {
@@ -19,6 +20,9 @@ function App() {
         <Route path="/faculty/create-quiz" element={<FacultyDashboard />} />
          <Route path="/signup" element={<SignupPage />} />
          <Route path="/self-eval" element ={<SelfEvalPage/>}/>
+          
+          <Route path="/proctoring" element={<Proctoring />} />
+
      
       </Routes>
     </BrowserRouter>

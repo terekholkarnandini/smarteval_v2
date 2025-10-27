@@ -1,9 +1,19 @@
 body {
+   height: 100%;
+  overflow-y: auto;
+
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
   background: linear-gradient(135deg, #0f2027, #1b123f, #2c5364); 
   color: #fff;
 }
+.upload-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
 
 .faculty-dashboard {
   display: flex;
@@ -27,6 +37,11 @@ body {
   display: flex;
   flex-direction: column;
   gap: 20px;
+   overflow-y: auto; /* scroll entire content */
+   max-height: 90vh; /* limit to viewport height */
+  
+  padding-right: 10px; /* avoid scrollbar overlaying content */
+
 }
 
 
@@ -154,3 +169,63 @@ body {
   background-color: #218838; 
 }
 
+input[type="file"] {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  width: 100%;
+  max-width: 300px;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+  background: #1e90ff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+input[type="file"]::-webkit-file-upload-button:hover {
+  background: #00bfff;
+}
+
+.upload-btn {
+  background: #fff;
+  color: #1e1e1e;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  width: 100%;
+  max-width: 300px;
+  transition: all 0.3s ease;
+}
+
+.upload-btn:hover {
+  background: #f0f0f0;
+}
+
+
+.upload-container {
+  position: sticky;
+  bottom: 0;
+  background: rgba(15, 15, 30, 0.8);
+  padding: 15px;
+  border-radius: 10px;
+  backdrop-filter: blur(5px);
+}
+
+
+.upload-section {
+   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}

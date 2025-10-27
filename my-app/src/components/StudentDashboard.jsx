@@ -52,7 +52,7 @@ export default function StudentDashboard() {
           // Terminate quiz
           setSelectedQuiz(null);
           setScore(null);
-          return 3; // Stop further increment
+          return 3; // Stop increment
         }
 
         return newCount;
