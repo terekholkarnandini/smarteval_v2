@@ -7,6 +7,8 @@ export default function StudentPage({ student }) {
   const [studentInfo, setStudentInfo] = useState(null);
   const [showDashboard, setShowDashboard] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,11 +39,14 @@ export default function StudentPage({ student }) {
     <div className="student-dashboard">
       {/* Sidebar */}
       <div className="sidebar">
+        
         <ul className="sidebar-nav">
           <li><span onClick={() => { setShowProfile(true); setShowDashboard(false); }}>Profile</span></li>
           <li><span>Analysis</span></li>
           <li><span onClick={() => { setShowDashboard(true); setShowProfile(false); }}>Attempt Quiz</span></li>
           <li><span>Resources</span></li>
+           <li><span onClick={() => navigate("/results")}>View Results</span></li>
+          
         </ul>
       </div>
 

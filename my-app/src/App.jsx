@@ -7,6 +7,7 @@ import SignupPage from "./components/SignupPage";
 import FacultyDashboard from "./components/FacultyDashboard";
 import SelfEvalPage from "./components/SelfEvalPage"
 import Proctoring from "./components/Proctoring";
+import StudentResult from "./components/StudentResult";
 
 
 function App() {
@@ -21,9 +22,8 @@ function App() {
          <Route path="/signup" element={<SignupPage />} />
          <Route path="/self-eval" element ={<SelfEvalPage/>}/>
           
-          <Route path="/proctoring" element={<Proctoring />} />
-
-     
+            <Route path="/proctoring" element={<Proctoring />} />
+            <Route path="/results" element={<StudentResult />} />
       </Routes>
     </BrowserRouter>
   );

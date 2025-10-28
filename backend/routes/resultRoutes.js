@@ -3,7 +3,8 @@ import Result from "../models/Result.js";
 
 const router = express.Router();
 
-// ✅ Save quiz + proctoring result
+
+// Save quiz + proctoring result
 router.post("/", async (req, res) => {
   try {
     // Validate required fields
@@ -42,8 +43,6 @@ router.post("/", async (req, res) => {
     res.status(500).json({ error: "Server error: " + err.message });
   }
 });
-
-// ✅ Get all results for a student
 router.get("/student/:studentId", async (req, res) => {
   try {
     const { studentId } = req.params;
@@ -55,7 +54,6 @@ router.get("/student/:studentId", async (req, res) => {
   }
 });
 
-// ✅ Get all results for a quiz (faculty view)
 router.get("/quiz/:quizId", async (req, res) => {
   try {
     const { quizId } = req.params;
@@ -64,6 +62,16 @@ router.get("/quiz/:quizId", async (req, res) => {
   } catch (err) {
     console.error("❌ Error fetching quiz results:", err);
     res.status(500).json({ error: "Server error: " + err.message });
+  }
+});
+
+router.get("/check/:studentId/:quizId", async (req, res) => {
+  try {
+    const { studentId, quizId } = req.params;
+    const attempt = await Result.findOne({ studentId, quizId });
+    res.json({ attempted: !!attempt });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
