@@ -25,7 +25,7 @@ export default function StudentResults() {
             <tr>
               <th>Quiz Title</th>
               <th>Score</th>
-              <th>Percentage</th>
+              
               <th>Tab Switches</th>
               <th>Suspicious</th>
               <th>Date</th>
@@ -36,7 +36,7 @@ export default function StudentResults() {
               <tr key={r._id}>
                 <td>{r.quizTitle}</td>
                 <td>{r.score}/{r.totalQuestions}</td>
-                <td>{r.percentage}%</td>
+                
                 <td>{r.tabSwitchCount}</td>
                 <td>{r.suspiciousActivity ? "⚠️ Yes" : "✅ No"}</td>
                 <td>{new Date(r.createdAt).toLocaleString()}</td>
