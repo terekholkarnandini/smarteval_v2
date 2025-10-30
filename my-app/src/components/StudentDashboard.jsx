@@ -63,37 +63,53 @@ export default function StudentDashboard() {
   }, [selectedQuiz]);
 
   // Proctoring
+  const hasAutoSubmittedRef = useRef(false);
+
   useEffect(() => {
     if (!selectedQuiz) return;
 
     const handleTabSwitch = () => {
-      setTabSwitchCount((prev) => {
-        const newCount = prev + 1;
-        if (newCount < 3) {
-          pendingWarningRef.current = `⚠️ Warning: You switched tabs (${newCount}/3). After 3 switches, the quiz will terminate.`;
-        } else {
-          pendingWarningRef.current =
-            "❌ You switched tabs 3 times. The quiz is terminated!";
-          alert(pendingWarningRef.current);
-          clearInterval(timerRef.current);
-          setSelectedQuiz(null);
-          setScore(null);
-          return 3;
-        }
-        return newCount;
-      });
-    };
+  setTabSwitchCount((prev) => {
+    const newCount = prev + 1;
 
-    const onVisibilityChange = () => {
-      if (document.visibilityState === "hidden") handleTabSwitch();
-      if (
-        document.visibilityState === "visible" &&
-        pendingWarningRef.current
-      ) {
+    if (newCount < 3) {
+      pendingWarningRef.current = `⚠️ Warning: You switched tabs (${newCount}/3). After 3 switches, the quiz will terminate.`;
+    } else {
+      // run only once
+      if (!hasAutoSubmittedRef.current) {
+        hasAutoSubmittedRef.current = true;
+
+        pendingWarningRef.current =
+          "❌ You switched tabs 3 times. The quiz is auto-submitted and terminated!";
         alert(pendingWarningRef.current);
-        pendingWarningRef.current = null;
+
+        clearInterval(timerRef.current);
+        handleSubmit(true, newCount);
       }
-    };
+      return 3;
+    }
+    return newCount;
+  });
+};
+
+
+
+  const onVisibilityChange = () => {
+  if (hasAutoSubmittedRef.current) return; // 🚫 Stop further alerts after termination
+
+  if (document.visibilityState === "hidden") {
+    handleTabSwitch();
+  }
+
+  if (
+    document.visibilityState === "visible" &&
+    pendingWarningRef.current
+  ) {
+    alert(pendingWarningRef.current);
+    pendingWarningRef.current = null;
+  }
+};
+
 
     document.addEventListener("visibilitychange", onVisibilityChange);
     return () => document.removeEventListener("visibilitychange", onVisibilityChange);
@@ -121,40 +137,45 @@ export default function StudentDashboard() {
   };
 
   // ✅ Submit (with fix)
-  const handleSubmit = async (auto = false) => {
-    if (!selectedQuiz || submitting) return;
-    setSubmitting(true);
+ const handleSubmit = async (auto = false, terminatedCount = null) => {
+  if (!selectedQuiz || submitting) return;
+  setSubmitting(true);
 
-    clearInterval(timerRef.current); // stop timer cleanly
+  clearInterval(timerRef.current); // stop timer cleanly
 
-    let correct = 0;
-    selectedQuiz.questions.forEach((q, i) => {
-      if (answers[i] === q.correctAnswer) correct++;
-    });
-    setScore(correct);
+  // compute score
+  let correct = 0;
+  selectedQuiz.questions.forEach((q, i) => {
+    if (answers[i] === q.correctAnswer) correct++;
+  });
+  setScore(correct);
 
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (!user) {
-      alert("❌ User not logged in. Please login again.");
-      setSubmitting(false);
-      return;
-    }
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user) {
+    alert("❌ User not logged in. Please login again.");
+    setSubmitting(false);
+    return;
+  }
 
-    const totalQuestions = selectedQuiz.questions.length;
-    const percentage = ((correct / totalQuestions) * 100).toFixed(2);
+  const totalQuestions = selectedQuiz.questions.length;
+  const percentage = ((correct / totalQuestions) * 100).toFixed(2);
 
-    const resultData = {
-      studentId: user?.studentId || user?.id,
-      studentName: user?.name,
-      quizId: selectedQuiz._id,
-      quizTitle: selectedQuiz.title,
-      score: correct,
-      totalQuestions,
-      percentage,
-      correctAnswers: correct,
-      tabSwitchCount,
-      suspiciousActivity: tabSwitchCount > 0,
-    };
+  // use passed terminatedCount if provided, otherwise use current state
+  const finalTabSwitchCount = typeof terminatedCount === "number" ? terminatedCount : tabSwitchCount;
+
+  const resultData = {
+    studentId: user?.studentId || user?.id,
+    studentName: user?.name,
+    quizId: selectedQuiz._id,
+    quizTitle: selectedQuiz.title,
+    score: correct,
+    totalQuestions,
+    percentage,
+    correctAnswers: correct,
+    tabSwitchCount: finalTabSwitchCount,
+    suspiciousActivity: finalTabSwitchCount > 0,
+    terminated: auto && finalTabSwitchCount >= 3
+  };
 
     try {
       const res = await fetch("http://localhost:5000/api/results", {
@@ -165,13 +186,14 @@ export default function StudentDashboard() {
 
       if (res.ok) {
         if (!auto) {
-          alert(`🎉 Quiz submitted! Your score: ${correct} / ${totalQuestions}`);
+          alert(` Quiz submitted! Your score: ${correct} / ${totalQuestions}`);
         } else {
-          alert("⏰ Time’s up! Your quiz was auto-submitted.");
+          alert(" Time’s up! Your quiz was auto-submitted.");
         }
 
         // Reset after a short delay
         setTimeout(async () => {
+          hasAutoSubmittedRef.current = false;
           setSelectedQuiz(null);
           setScore(null);
           setTabSwitchCount(0);

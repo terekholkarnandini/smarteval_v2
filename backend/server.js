@@ -64,7 +64,7 @@ app.post("/register", async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // ✅ Use the helper function to generate a unique student ID
+    //  Use the helper function to generate a unique student ID
     let studentId = undefined;
     if (role === "student") {
       studentId = await generateUniqueStudentId();

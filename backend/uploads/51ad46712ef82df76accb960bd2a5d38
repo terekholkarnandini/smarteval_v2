@@ -1,0 +1,69 @@
+Q: What is Software Engineering?
+A) The study of hardware components
+B) The systematic approach to software development and maintenance
+C) Writing random code for projects
+D) Creating only system software
+Answer: B
+
+Q: Which of the following is NOT a software development life cycle (SDLC) model?
+A) Waterfall model
+B) Spiral model
+C) V-model
+D) Ethernet model
+Answer: D
+
+Q: What does SDLC stand for?
+A) Software Design Life Cycle
+B) System Design Logic Cycle
+C) Software Development Life Cycle
+D) System Development Logic Cycle
+Answer: C
+
+Q: In the Waterfall model, which phase comes immediately after the Design phase?
+A) Testing
+B) Implementation (Coding)
+C) Requirement Analysis
+D) Maintenance
+Answer: B
+
+Q: What is the main goal of software testing?
+A) To find and fix hardware issues
+B) To ensure the software meets requirements and is defect-free
+C) To design user interfaces
+D) To increase software size
+Answer: B
+
+Q: Which one of the following is an example of a CASE tool?
+A) Compiler
+B) MS Paint
+C) Rational Rose
+D) Notepad
+Answer: C
+
+Q: What is a prototype in software development?
+A) A final software release
+B) A model or sample version built to test concepts and functionalities
+C) A testing tool
+D) A maintenance document
+Answer: B
+
+Q: Which of the following is NOT a software quality attribute?
+A) Reliability
+B) Efficiency
+C) Portability
+D) Electricity
+Answer: D
+
+Q: What is software maintenance?
+A) Installing software on new computers
+B) Updating and improving software after its delivery
+C) Developing software for new systems
+D) Creating backups of software
+Answer: B
+
+Q: What is the main advantage of the Agile model?
+A) It follows a rigid, linear process
+B) It allows flexibility and quick adaptation to changes
+C) It requires no client interaction
+D) It eliminates testing completely
+Answer: B
